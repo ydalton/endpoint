@@ -1,7 +1,11 @@
 using Gtk 4.0;
 
-template $EpMainView : Gtk.Widget {
-  Button button {
-    label: "Click Me!";
+template $EpMainView : Gtk.Box {
+  Box {
+    Button button {
+      label: "Click Me!";
+      halign: center;
+      valign: center;
+    }
   }
 }
