@@ -1,5 +1,6 @@
 endpoint_sources += files(
-  'Endpoint.vala'
+  'Endpoint.vala',
+  'camouflage.c'
 )
 
 blueprint_sources = files()

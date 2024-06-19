@@ -1,3 +1,6 @@
+extern bool is_running_on_gnome();
+extern bool init_adwaita();
+
 public class Ep.Application : Gtk.Application
 {
     static construct {
@@ -16,8 +19,13 @@ public class Ep.Application : Gtk.Application
         window.present();
     }
 
-    public static int main(string[] args) 
+    public static int main(string[] args)
     {
-        return new Ep.Application().run(args);
+        var app = new Ep.Application();
+
+        if(is_running_on_gnome())
+            init_adwaita();
+
+        return app.run();
     }
 }
