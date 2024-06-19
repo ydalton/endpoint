@@ -14,11 +14,18 @@ template $EpMainWindow : Gtk.ApplicationWindow {
         orientation: vertical;
         Gtk.Box {
             orientation: horizontal;
+
             margin-top: 6;
             margin-start: 6;
             margin-end: 6;
             margin-bottom: 6;
 
+            Gtk.DropDown {
+                width-request: 84;
+                model: StringList {
+                    strings ["GET", "POST", "PUT", "DELETE"]
+                };
+            }
             Gtk.Entry {
                 placeholder-text: _("URL");
                 margin-end: 6;
