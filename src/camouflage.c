@@ -7,18 +7,18 @@
 
 gboolean init_adwaita()
 {
-    void *adwaita;
-    void (*adw_init)();
+	void *adwaita;
+	void (*adw_init)();
 
-    adwaita = dlopen("libadwaita-1.so", RTLD_NOW);
-    if(!adwaita)
-        return FALSE;
+	adwaita = dlopen("libadwaita-1.so", RTLD_NOW);
+	if(!adwaita)
+		return FALSE;
 
-    adw_init = dlsym(adwaita, "adw_init");
-    if(!adw_init)
-        return FALSE;
+	adw_init = dlsym(adwaita, "adw_init");
+	if(!adw_init)
+		return FALSE;
 
-    adw_init();
+	adw_init();
 
-    return TRUE;
+	return TRUE;
 }
