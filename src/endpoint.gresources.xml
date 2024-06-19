@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <gresources>
   <gresource prefix="/io/github/ydalton/Endpoint/ui">
-    <file compressed="true" preprocess="xml-stripblanks">View/MainView.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">View/MainWindow.ui</file>
+    <file compressed="true" preprocess="xml-stripblanks">View/CodeView.ui</file>
   </gresource>
 </gresources>

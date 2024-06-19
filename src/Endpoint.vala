@@ -1,18 +1,18 @@
 public class Ep.Application : Gtk.Application
 {
+    static construct {
+        typeof(GtkSource.View).ensure();
+    }
+
     public Application()
     {
         Object(application_id: "io.github.ydalton.Endpoint", 
-                flags: ApplicationFlags.FLAGS_NONE);
+               flags: ApplicationFlags.FLAGS_NONE);
     }
     public override void activate()
     {
-        var window = new Gtk.ApplicationWindow(this) {
-            child = new Ep.MainView(),
-            width_request = 600,
-            height_request = 400
-        };
-
+        var window = new Ep.MainWindow(this);
+        window.title = "Endpoint";
         window.present();
     }
 

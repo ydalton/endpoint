@@ -1,7 +1,9 @@
 endpoint_sources += files(
-  'MainView.vala'
+  'MainWindow.vala',
+  'CodeView.vala'
 )
 
 blueprint_sources += files(
-  'MainView.blp'
+  'MainWindow.blp',
+  'CodeView.blp'
 )

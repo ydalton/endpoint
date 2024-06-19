@@ -1,0 +1,31 @@
+using Gtk 4.0;
+using GtkSource 5;
+
+template $EpCodeView : Gtk.Box {
+    Gtk.ScrolledWindow {
+        GtkSource.View source_view {
+            show-line-numbers: true;
+            monospace: true;
+            auto-indent: true;
+            highlight-current-line: true;
+            indent-on-tab: true;
+            indent-width: 4;
+            insert-spaces-instead-of-tabs: true;
+            show-line-marks: true;
+            smart-backspace: true;
+            tab-width: 4;
+            hexpand: true;
+            vexpand: true;
+            editable: bind template.editable;
+
+            [internal-child completion]
+            GtkSource.Completion {
+                select-on-show: true;
+            }
+
+            buffer: GtkSource.Buffer {
+                highlight-syntax: true;
+            };
+        }
+    }
+}

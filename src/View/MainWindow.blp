@@ -1,0 +1,39 @@
+using Gtk 4.0;
+
+template $EpMainWindow : Gtk.ApplicationWindow {
+    default-width: 600;
+    default-height: 500;
+
+    titlebar:
+    Gtk.HeaderBar {
+
+    };
+
+    child:
+    Gtk.Box {
+        orientation: vertical;
+        Gtk.Box {
+            orientation: horizontal;
+            margin-top: 6;
+            margin-start: 6;
+            margin-end: 6;
+            margin-bottom: 6;
+
+            Gtk.Entry {
+                placeholder-text: _("URL");
+                margin-end: 6;
+                hexpand: true;
+            }
+            Gtk.Button {
+                label: _("Send");
+                styles [
+                    "suggested-action"
+                ]
+            }
+        }
+        $EpCodeView {
+            language_id: "json";
+            editable: false;
+        }
+    };
+}

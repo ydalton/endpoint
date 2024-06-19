@@ -5,7 +5,8 @@ project(
 )
 
 endpoint_deps = [
-  dependency('gtk4')
+  dependency('gtk4'),
+  dependency('gtksourceview-5')
 ]
 
 gnome = import('gnome')
