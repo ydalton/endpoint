@@ -5,12 +5,6 @@
 #include <glib.h>
 #include <dlfcn.h>
 
-/* FIXME: find a way to detect whether we're on GNOME */
-gboolean is_running_on_gnome()
-{
-    return FALSE;
-}
-
 gboolean init_adwaita()
 {
     void *adwaita;
