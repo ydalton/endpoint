@@ -25,6 +25,7 @@ template $EpCodeView : Gtk.Box {
 
             buffer: GtkSource.Buffer {
                 highlight-syntax: true;
+                text: bind template.text bidirectional;
             };
         }
     }

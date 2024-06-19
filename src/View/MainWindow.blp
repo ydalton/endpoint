@@ -4,11 +4,6 @@ template $EpMainWindow : Gtk.ApplicationWindow {
     default-width: 600;
     default-height: 500;
 
-    titlebar:
-    Gtk.HeaderBar {
-
-    };
-
     child:
     Gtk.Box {
         orientation: vertical;
@@ -20,27 +15,41 @@ template $EpMainWindow : Gtk.ApplicationWindow {
             margin-end: 6;
             margin-bottom: 6;
 
-            Gtk.DropDown {
+            Gtk.DropDown method_dropdown {
                 width-request: 84;
-                model: StringList {
-                    strings ["GET", "POST", "PUT", "DELETE"]
-                };
             }
-            Gtk.Entry {
+
+            Gtk.Entry url_entry {
                 placeholder-text: _("URL");
                 margin-end: 6;
                 hexpand: true;
             }
-            Gtk.Button {
+
+            Gtk.Button send_button {
                 label: _("Send");
                 styles [
                     "suggested-action"
                 ]
+                clicked => $send_action();
             }
         }
-        $EpCodeView {
-            language_id: "json";
-            editable: false;
+        Box {
+            orientation: vertical;
+            StackSwitcher {
+                stack: stack;
+                halign: center;
+                valign: center;
+                margin-bottom: 6;
+            }
+            Stack stack {
+                StackPage {
+                    title: "Formatted";
+                    child:
+                    $EpCodeView formatted {
+                        editable: false;
+                    };
+                }
+            }
         }
     };
 }

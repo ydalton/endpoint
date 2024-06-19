@@ -10,6 +10,8 @@ namespace Ep
 
         public string language_id { get; set; }
         public bool editable { get; set; }
+        public string text {get; set; default = ""; }
+        public string mimetype { get; set; }
 
         private void on_language_change_cb()
         {
