@@ -46,6 +46,9 @@ namespace Ep
             var method = selected.string;
             var url = url_entry.text;
 
+            if(session == null)
+                session = new Soup.Session();
+
             return_if_fail(is_valid_uri(url));
 
             response = null;
@@ -96,7 +99,6 @@ namespace Ep
 
         construct {
             method_dropdown.model = new Gtk.StringList(accepted_methods);
-            session = new Soup.Session();
         }
 
         public MainWindow(Gtk.Application application) 
