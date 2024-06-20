@@ -40,6 +40,7 @@ namespace Ep
         {
             Bytes response_bytes;
             string content_type;
+            string language = "plain";
 
             var selected = method_dropdown.selected_item as Gtk.StringObject;
             var method = selected.string;
@@ -66,14 +67,20 @@ namespace Ep
 
             this.response = (string) response_bytes.get_data();
             content_type = msg.response_headers.get_content_type(null);
-            if(content_type == null) {
-                formatted.language_id = "plain";
+            /* HACK: well, I don't think we're gonna get any other formats than these */
+            if(content_type != null) {
+                if(content_type.contains("html")) {
+                    language = "html";
+                } else if(content_type.contains("json")) {
+                    language = "json";
+                } else if(content_type.contains("xml")) {
+                    language = "xml";
+                }
             }
-            string[] split = content_type.split("/", 0);
 
             status_line.message = msg;
 
-            formatted.language_id = split[1];
+            formatted.language_id = language;
             formatted.text = response;
         }
 
