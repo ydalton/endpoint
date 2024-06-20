@@ -12,6 +12,7 @@ namespace Ep
         public bool editable { get; set; }
         public string text {get; set; default = ""; }
         public string mimetype { get; set; }
+        public bool format_text { get; set; }
 
         [GtkCallback]
         private void on_language_change_cb()
@@ -28,6 +29,24 @@ namespace Ep
             }
 
             buffer.language = language;
+        }
+
+        [GtkCallback]
+        private void on_text_change_cb()
+        {
+            if(language_id != "json" || !this.format_text)
+                return;
+
+            Json.Node node; 
+            try {
+                node = Json.from_string(text);
+            } catch(Error e) {
+                warning("Failed to parse JSON: %s", e.message);
+                warning("Bailing on JSON pretty printing...");
+                return;
+            }
+            var str = Json.to_string(node, true);
+            text = str;
         }
 
         public CodeView(string language_id, bool editable)
