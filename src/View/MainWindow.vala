@@ -45,13 +45,14 @@ namespace Ep
             var method = selected.string;
             var url = url_entry.text;
 
+            return_if_fail(is_valid_uri(url));
+
             response = null;
 
             msg = new Soup.Message(method, url);
-            if(msg == null) {
-                warning("Failed to create message");
-                return;
-            }
+            assert(msg != null);
+
+            /* FIXME: turn into async */
             try {
                 response_bytes = session.send_and_read(msg, null);
                 debug("Send off request with uri %s", url);
