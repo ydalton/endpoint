@@ -11,6 +11,8 @@ namespace Ep
         private unowned Gtk.Button send_button;
         [GtkChild]
         private unowned Ep.CodeView formatted;
+        [GtkChild]
+        private unowned Ep.StatusLine status_line;
 
         private Soup.Session session;
         private Soup.Message msg;
@@ -68,6 +70,8 @@ namespace Ep
             }
             string[] split = content_type.split("/", 0);
 
+            status_line.message = msg;
+
             formatted.language_id = split[1];
             formatted.text = response;
         }
@@ -76,13 +80,15 @@ namespace Ep
             typeof(Ep.CodeView).ensure();
         }
 
+        [GtkCallback]
+        private void on_text_changed_cb()
+        {
+            send_button.sensitive = is_valid_uri(url_entry.text);
+        }
+
         construct {
             method_dropdown.model = new Gtk.StringList(accepted_methods);
             session = new Soup.Session();
-
-            url_entry.notify["text"].connect(() => {
-                send_button.sensitive = is_valid_uri(url_entry.text);
-            });
         }
 
         public MainWindow(Gtk.Application application) 

@@ -1,7 +1,7 @@
 using Gtk 4.0;
 
 template $EpMainWindow : Gtk.ApplicationWindow {
-    default-width: 600;
+    default-width: 700;
     default-height: 500;
 
     child:
@@ -23,9 +23,11 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                 placeholder-text: _("URL");
                 margin-end: 6;
                 hexpand: true;
+                notify::text => $on_text_changed_cb();
             }
 
             Gtk.Button send_button {
+                sensitive: false;
                 label: _("Send");
                 styles [
                     "suggested-action"
@@ -35,11 +37,31 @@ template $EpMainWindow : Gtk.ApplicationWindow {
         }
         Box {
             orientation: vertical;
-            StackSwitcher {
-                stack: stack;
-                halign: center;
-                valign: center;
+            Box {
                 margin-bottom: 6;
+                homogeneous: true;
+
+                Box {
+                    hexpand: true;
+                    halign: start;
+                }
+                Box {
+                    hexpand: true;
+                    halign: center;
+
+                    StackSwitcher {
+                        stack: stack;
+                    }
+                }
+                Box {
+                    hexpand: true;
+                    halign: end;
+                    margin-end: 6;
+
+                    $EpStatusLine status_line {
+
+                    }
+                }
             }
             Stack stack {
                 StackPage {

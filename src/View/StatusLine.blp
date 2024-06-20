@@ -1,0 +1,7 @@
+using Gtk 4.0;
+
+template $EpStatusLine : Gtk.Box {
+    notify::message => $on_message_changed_cb();
+    Label label {
+    }
+}
