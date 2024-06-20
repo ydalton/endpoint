@@ -24,6 +24,7 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                 margin-end: 6;
                 hexpand: true;
                 notify::text => $on_text_changed_cb();
+                activate => $send_action();
             }
 
             Gtk.Button send_button {
