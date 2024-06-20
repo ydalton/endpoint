@@ -2,6 +2,7 @@ using Gtk 4.0;
 using GtkSource 5;
 
 template $EpCodeView : Gtk.Box {
+    notify::language-id => $on_language_change_cb();
     Gtk.ScrolledWindow {
         GtkSource.View source_view {
             show-line-numbers: true;

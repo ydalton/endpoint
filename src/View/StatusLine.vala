@@ -8,10 +8,11 @@ namespace Ep
         public Soup.Message message { get; set; }
 
         [GtkCallback]
-        private void on_message_changed_cb()
+        private void on_message_change_cb()
         {
             label.css_classes = {};
-            label.label = "%u %s".printf(message.status_code, message.reason_phrase);
+            label.label = "%u %s".printf(message.status_code,
+                                         message.reason_phrase);
             switch(message.status_code / 100) {
                 case 2:
                 case 3:

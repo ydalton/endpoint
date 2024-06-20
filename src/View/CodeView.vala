@@ -13,6 +13,7 @@ namespace Ep
         public string text {get; set; default = ""; }
         public string mimetype { get; set; }
 
+        [GtkCallback]
         private void on_language_change_cb()
         {
             if(language_id == null) 
@@ -27,10 +28,6 @@ namespace Ep
             }
 
             buffer.language = language;
-        }
-
-        construct {
-            this.notify["language-id"].connect(on_language_change_cb);
         }
 
         public CodeView(string language_id, bool editable)
