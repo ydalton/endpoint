@@ -1,0 +1,7 @@
+[wrap-git]
+directory=libsoup
+url=https://gitlab.gnome.org/GNOME/libsoup.git
+push-url=ssh://git@gitlab.gnome.org:GNOME/libsoup.git
+revision=master
+depth=1
+
