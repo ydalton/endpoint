@@ -17,15 +17,20 @@ namespace Ep
         [GtkCallback]
         private void on_language_change_cb()
         {
-            if(language_id == null) 
-                return;
-            this.manager = GtkSource.LanguageManager.get_default();
+            GtkSource.Language language = null;
+            GtkSource.Buffer buffer;
 
-            GtkSource.Buffer buffer = this.source_view.buffer as GtkSource.Buffer;
-            GtkSource.Language language = this.manager.get_language(language_id);
+            buffer = this.source_view.buffer as GtkSource.Buffer;
 
-            if(language == null) {
-                warning("Can't find language with language id %s\n", language_id);
+            if(language_id != null) {
+
+                this.manager = GtkSource.LanguageManager.get_default();
+
+                language = this.manager.get_language(language_id);
+
+                if(language == null)
+                    warning("Can't find language with language id %s\n",
+                            language_id);
             }
 
             buffer.language = language;
@@ -34,10 +39,13 @@ namespace Ep
         [GtkCallback]
         private void on_text_change_cb()
         {
-            if(language_id != "json" || !this.format_text)
+            Json.Node node;
+
+            debug("Parsing JSON...");
+
+            if(language_id != "json" || !this.format_text || this.text == "")
                 return;
 
-            Json.Node node; 
             try {
                 node = Json.from_string(text);
             } catch(Error e) {
@@ -45,6 +53,12 @@ namespace Ep
                 warning("Bailing on JSON pretty printing...");
                 return;
             }
+
+            if(node == null) {
+                warning("JSON improperly parsed");
+                return;
+            }
+
             var str = Json.to_string(node, true);
             text = str;
         }

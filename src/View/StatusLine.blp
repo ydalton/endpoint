@@ -3,9 +3,19 @@ using Gtk 4.0;
 template $EpStatusLine : Gtk.Box {
     notify::message => $on_message_change_cb();
     notify::status => $on_status_change_cb();
-    Label label {
-        halign: fill;
-        label: bind template.text;
-        hexpand: true;
+    Gtk.Stack {
+        Gtk.StackPage {
+            child:
+            Label label {
+                halign: fill;
+                label: bind template.text;
+                hexpand: true;
+            };
+        }
+        Gtk.StackPage {
+            child:
+            Gtk.Spinner {
+            };
+        }
     }
 }

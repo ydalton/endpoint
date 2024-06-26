@@ -42,7 +42,7 @@ namespace Ep
         {
             Bytes response_bytes;
             string content_type;
-            string language = "plain";
+            string language = null;
 
             var selected = method_dropdown.selected_item as Gtk.StringObject;
             var method = selected.string;
