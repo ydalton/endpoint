@@ -2,9 +2,7 @@ extern bool init_adwaita();
 
 public class Ep.Application : Gtk.Application
 {
-    public string name = "Endpoint";
-    public string application_id = "io.github.ydalton.Endpoint";
-    public ApplicationFlags flags = ApplicationFlags.FLAGS_NONE;
+    public static string name = "Endpoint";
 
     static construct {
         typeof(GtkSource.View).ensure();
@@ -12,7 +10,8 @@ public class Ep.Application : Gtk.Application
 
     public Application()
     {
-        Object();
+        Object(application_id: "io.github.ydalton.Endpoint",
+               flags: ApplicationFlags.FLAGS_NONE);
     }
 
     /*

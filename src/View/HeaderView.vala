@@ -37,8 +37,9 @@ namespace Ep
                                       Object item)
         {
             var label = new Gtk.Label(null);
+            var list_item = (item as Gtk.ListItem);
             label.halign = Gtk.Align.START;
-            (item as Gtk.ListItem).child = label;
+            list_item.child = label;
         }
 
         private void setup_column_view()
@@ -64,7 +65,8 @@ namespace Ep
             factory.bind.connect((factory, item) => {
                 var list_item = item as Gtk.ListItem;
                 var header = list_item.item as Header;
-                (list_item.child as Gtk.Label).label = header.value;
+                var label = (list_item.child as Gtk.Label);
+                label.label = header.value;
             });
             value_column.factory = factory;
         }
