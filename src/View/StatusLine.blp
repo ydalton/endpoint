@@ -2,5 +2,10 @@ using Gtk 4.0;
 
 template $EpStatusLine : Gtk.Box {
     notify::message => $on_message_change_cb();
-    Label label {}
+    notify::status => $on_status_change_cb();
+    Label label {
+        halign: fill;
+        label: bind template.text;
+        hexpand: true;
+    }
 }

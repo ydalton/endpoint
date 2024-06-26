@@ -65,8 +65,8 @@ namespace Ep
                 response_bytes = session.send_and_read(msg, null);
                 debug("Send off request with uri %s", url);
             } catch (Error e) {
-                /* FIXME: show error message to notify user */
-                warning("Failed to send request: %s", e.message);
+                status_line.text = e.message;
+                status_line.status = "error";
                 return;
             }
 
