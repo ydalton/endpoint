@@ -13,6 +13,8 @@ namespace Ep
         private unowned Ep.CodeView formatted;
         [GtkChild]
         private unowned Ep.StatusLine status_line;
+        [GtkChild]
+        private unowned Ep.HeaderView header_view;
 
         private Soup.Session session;
         private Soup.Message msg;
@@ -52,6 +54,8 @@ namespace Ep
             return_if_fail(is_valid_uri(url));
 
             response = null;
+            formatted.text = "";
+            status_line.message = null;
 
             msg = new Soup.Message(method, url);
             assert(msg != null);
@@ -80,6 +84,7 @@ namespace Ep
                     language = "xml";
                 }
             }
+            header_view.headers = msg.response_headers;
 
             status_line.message = msg;
 

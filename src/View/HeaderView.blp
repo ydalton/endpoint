@@ -1,6 +1,24 @@
 using Gtk 4.0;
 
 template $EpHeaderView : Box {
-    Gtk.ColumnView {
+    notify::headers => $on_header_change_cb();
+    Gtk.ScrolledWindow {
+        hexpand: true;
+        halign: fill;
+        Gtk.ColumnView column_view {
+            hexpand: true;
+            Gtk.ColumnViewColumn header_column {
+                title: "Header";
+                resizable: true;
+            }
+            Gtk.ColumnViewColumn value_column {
+                title: "Value";
+                resizable: true;
+            }
+
+            styles [
+                "data_table"
+            ]
+        }
     }
 }

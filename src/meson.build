@@ -5,6 +5,7 @@ endpoint_sources += files(
 
 blueprint_sources = files()
 subdir('View')
+subdir('Utils')
 
 blueprints = custom_target('blueprints',
   input: blueprint_sources,
