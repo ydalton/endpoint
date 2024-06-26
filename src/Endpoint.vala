@@ -21,7 +21,27 @@ public class Ep.Application : Gtk.Application
      */
     private string? get_desktop_name()
     {
-        return Environment.get_variable("XDG_CURRENT_DESKTOP");;
+        string _desktop_name = Environment.get_variable("XDG_CURRENT_DESKTOP");
+        string kernel_name;
+        if(_desktop_name == null) {
+            Process.spawn_sync(null,
+                               {"uname", "-s"},
+                               null,
+                               SpawnFlags.SEARCH_PATH,
+                               null,
+                               out kernel_name);
+
+            kernel_name = kernel_name.split("\n")[0];
+            if(kernel_name != null) {
+                switch(kernel_name) {
+                    case "Darwin":
+                        return "macOS";
+                    default:
+                        return kernel_name;
+                }
+            }
+        }
+        return _desktop_name;
     }
 
     public override void startup()
@@ -39,7 +59,7 @@ public class Ep.Application : Gtk.Application
 
         switch(desktop_name) {
             case null:
-                debug("Couldn't detect desktop from querying $XDG_CURRENT_DESKTOP. Perhaps a standalone WM?");
+                debug("Couldn't detect desktop/operating system!");
                 break;
             case "GNOME":
                 debug("Initializing Libadwaita...");
@@ -57,7 +77,6 @@ public class Ep.Application : Gtk.Application
         window.present();
         debug("Finished initializing...");
     }
-
 
     public static int main(string[] args)
     {
