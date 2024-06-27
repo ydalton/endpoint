@@ -11,7 +11,7 @@ public class Ep.Application : Gtk.Application
     public Application()
     {
         Object(application_id: "io.github.ydalton.Endpoint",
-               flags: ApplicationFlags.FLAGS_NONE);
+               flags: ApplicationFlags.DEFAULT_FLAGS);
     }
 
     /*
@@ -23,12 +23,16 @@ public class Ep.Application : Gtk.Application
         string _desktop_name = Environment.get_variable("XDG_CURRENT_DESKTOP");
         string kernel_name;
         if(_desktop_name == null) {
-            Process.spawn_sync(null,
-                               {"uname", "-s"},
-                               null,
-                               SpawnFlags.SEARCH_PATH,
-                               null,
-                               out kernel_name);
+            try {
+                Process.spawn_sync(null,
+                                   {"uname", "-s"},
+                                   null,
+                                   SpawnFlags.SEARCH_PATH,
+                                   null,
+                                   out kernel_name);
+            } catch (SpawnError e) {
+                error("%s", e.message);
+            }
 
             kernel_name = kernel_name.split("\n")[0];
             if(kernel_name != null) {
