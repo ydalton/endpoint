@@ -1,0 +1,23 @@
+#+TITLE: Endpoint: A GTK application for API testing
+** Introduction
+This application allows you to test REST APIs similar to ~curl~, but
+with a graphical interface, similar to Postman.
+** Building
+This project is build using Meson. On top of that, it requires the
+following dependencies:
+- gtk4
+- gtksourceview-5
+- libsoup-3.0
+- json-glib-1.0
+To set up the build environment in the ~build~ folder:
+#+BEGIN_EXAMPLE
+$ meson setup build
+#+END_EXAMPLE
+To compile the application:
+#+BEGIN_EXAMPLE
+$ meson compile -C build
+#+END_EXAMPLE
+To run the application:
+#+BEGIN_EXAMPLE
+$ ./build/io.github.ydalton.Endpoint
+#+END_EXAMPLE
