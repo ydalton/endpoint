@@ -23,4 +23,5 @@ executable(
   vala_args: [
     '--gresourcesdir=' + blueprints.full_path(),
   ],
+  install: true
 )
