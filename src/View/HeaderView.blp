@@ -4,15 +4,19 @@ template $EpHeaderView : Box {
     notify::headers => $on_header_change_cb();
     Gtk.ScrolledWindow {
         propagate-natural-width: true;
+        hexpand: true;
+        vexpand: true;
         Gtk.ColumnView column_view {
             tab-behavior: cell;
             Gtk.ColumnViewColumn header_column {
                 title: "Header";
                 resizable: true;
+                expand: true;
             }
             Gtk.ColumnViewColumn value_column {
                 title: "Value";
                 resizable: true;
+                expand: true;
             }
 
             styles [
