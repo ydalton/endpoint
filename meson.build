@@ -14,7 +14,19 @@ endpoint_deps = [
 gnome = import('gnome')
 
 endpoint_sources = files()
+libendpoint_lib_sources = files()
 subdir('src')
+
+libendpoint_lib = static_library(
+  'libendpoint',
+  libendpoint_lib_sources,
+  dependencies: [
+    dependency('glib-2.0'),
+    dependency('gobject-2.0')
+  ]
+)
+
+subdir('test')
 
 executable(
   meson.project_name(), 
@@ -23,5 +35,6 @@ executable(
   vala_args: [
     '--gresourcesdir=' + blueprints.full_path(),
   ],
+  link_with: libendpoint_lib,
   install: true
 )

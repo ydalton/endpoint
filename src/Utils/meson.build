@@ -1,3 +1,4 @@
-endpoint_sources += files(
-  'Header.vala'
+libendpoint_lib_sources += files(
+  'Header.vala',
+  'Utils.vala',
 )
