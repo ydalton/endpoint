@@ -12,11 +12,17 @@ namespace Ep
         [GtkChild]
         private unowned Ep.CodeView formatted;
         [GtkChild]
+        private unowned Ep.CodeView raw;
+        [GtkChild]
         private unowned Ep.StatusLine status_line;
         [GtkChild]
         private unowned Ep.HeaderView header_view;
         [GtkChild]
         private unowned Gtk.Label size_label;
+        [GtkChild]
+        private unowned Gtk.Spinner spinner;
+
+        private CodeViewManager view_manager;
 
         private Soup.Session session;
         private Soup.Message msg;
@@ -42,7 +48,7 @@ namespace Ep
         [GtkCallback]
         private void send_action()
         {
-            Bytes response_bytes;
+            Bytes response_bytes = null;
             string content_type;
             string language = null;
 
@@ -56,23 +62,38 @@ namespace Ep
             return_if_fail(is_valid_uri(url));
 
             response = null;
-            formatted.text = "";
+            /* FIXME: add a controller to clear and fill these all in one
+             * function call? */
+            view_manager.text = "";
             status_line.message = null;
+            status_line.text = "";
+            size_label.label = "";
 
             msg = new Soup.Message(method, url);
             assert(msg != null);
 
-            /* FIXME: turn into async */
-            try {
-                response_bytes = session.send_and_read(msg, null);
-                debug("Send off request with uri %s", url);
-            } catch (Error e) {
-                status_line.text = e.message;
-                status_line.status = "error";
+            var loop = new MainLoop();
+            spinner.start();
+
+            /* XXX: possibly buggy? */
+            session.send_and_read_async.begin(msg, 0, null, (obj, res) => {
+                try {
+                    response_bytes = session.send_and_read_async.end(res);
+                    debug("Send off request with uri %s", url);
+                } catch (Error e) {
+                    status_line.text = e.message;
+                    status_line.status = "error";
+                }
+                loop.quit();
+            });
+
+            loop.run();
+
+            spinner.stop();
+
+            if(response_bytes == null) {
                 return;
             }
-
-            assert(response_bytes != null);
 
             this.response = (string) response_bytes.get_data();
             content_type = msg.response_headers.get_content_type(null);
@@ -87,11 +108,10 @@ namespace Ep
             }
 
             header_view.headers = msg.response_headers;
-
             status_line.message = msg;
 
-            formatted.language_id = language;
-            formatted.text = response;
+            view_manager.language_id = language;
+            view_manager.text = response;
             size_label.label = show_length(response.length);
         }
 
@@ -107,6 +127,9 @@ namespace Ep
 
         construct {
             method_dropdown.model = new Gtk.StringList(accepted_methods);
+            view_manager = new CodeViewManager();
+            view_manager.add(formatted);
+            view_manager.add(raw);
         }
 
         public MainWindow(Gtk.Application application)

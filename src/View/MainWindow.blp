@@ -54,7 +54,7 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                     halign: center;
 
                     StackSwitcher {
-                        stack: stack;
+                        stack: response_stack;
                     }
                 }
                 Box {
@@ -63,17 +63,27 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                     margin-end: 6;
                     spacing: 6;
 
+                    Spinner spinner {}
+
                     $EpStatusLine status_line {}
 
                     Label size_label {}
                 }
             }
-            Stack stack {
+            Stack response_stack {
                 StackPage {
                     title: "Formatted";
                     child:
                     $EpCodeView formatted {
                         format-text: true;
+                        editable: false;
+                    };
+                }
+                StackPage {
+                    title: "Raw";
+                    child:
+                    $EpCodeView raw {
+                        format-text: false;
                         editable: false;
                     };
                 }
