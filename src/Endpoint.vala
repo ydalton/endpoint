@@ -4,10 +4,6 @@ public class Ep.Application : Gtk.Application
 {
     public static string name = "Endpoint";
 
-    static construct {
-        typeof(GtkSource.View).ensure();
-    }
-
     public Application()
     {
         Object(application_id: "io.github.ydalton.Endpoint",
