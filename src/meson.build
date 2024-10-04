@@ -6,6 +6,14 @@ endpoint_sources += files(
 blueprint_sources = files()
 subdir('View')
 
+config_data = configuration_data()
+config_data.set_quoted('VERSION', meson.project_version())
+endpoint_sources += configure_file(
+    input: 'Config.vala.in',
+    output: '@BASENAME@',
+    configuration: config_data
+)
+
 subdir('Utils')
 
 blueprints = custom_target('blueprints',

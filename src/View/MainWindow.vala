@@ -80,6 +80,8 @@ namespace Ep
             msg.set_request_body_from_bytes("application/json",
                                             body_as_bytes);
 
+            msg.request_headers.append("User-Agent", @"Endpoint/$VERSION");
+
             var loop = new MainLoop();
             spinner.start();
 
