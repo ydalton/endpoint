@@ -21,6 +21,8 @@ namespace Ep
         private unowned Gtk.Label size_label;
         [GtkChild]
         private unowned Gtk.Spinner spinner;
+        [GtkChild]
+        private unowned Ep.CodeView request_body;
 
         private CodeViewManager view_manager;
 
@@ -68,9 +70,15 @@ namespace Ep
             status_line.message = null;
             status_line.text = "";
             size_label.label = "";
+            header_view.headers = null;
 
             msg = new Soup.Message(method, url);
             assert(msg != null);
+
+            var body_as_bytes = new Bytes.static(request_body.text.data);
+
+            msg.set_request_body_from_bytes("application/json",
+                                            body_as_bytes);
 
             var loop = new MainLoop();
             spinner.start();

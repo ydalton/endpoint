@@ -3,7 +3,7 @@ using Gtk 4.0;
 template $EpMainWindow : Gtk.ApplicationWindow {
     default-width: 700;
     default-height: 500;
-    width-request: 300;
+    width-request: 700;
 
     child:
     Gtk.Box {
@@ -40,23 +40,37 @@ template $EpMainWindow : Gtk.ApplicationWindow {
 
         Box {
             orientation: vertical;
-            Box {
+            StackSwitcher {
+                halign: center;
+                hexpand: false;
+                stack: request_stack;
+            }
+            Stack request_stack {
+                margin-top: 6;
                 margin-bottom: 6;
-                homogeneous: true;
+                margin-start: 6;
+                margin-end: 6;
 
-                /* this is only to maintain alignment */
-                Box {
-                    hexpand: true;
-                    halign: start;
+                StackPage {
+                    title: "Body";
+                    child: $EpCodeView request_body {
+                        editable: true;
+                    };
                 }
-                Box {
-                    hexpand: true;
-                    halign: center;
+            }
+        }
 
-                    StackSwitcher {
-                        stack: response_stack;
-                    }
-                }
+        Box {
+            orientation: vertical;
+            CenterBox {
+                margin-bottom: 6;
+
+                center-widget:
+                StackSwitcher {
+                    stack: response_stack;
+                };
+
+                end-widget:
                 Box {
                     hexpand: true;
                     halign: end;
@@ -68,9 +82,12 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                     $EpStatusLine status_line {}
 
                     Label size_label {}
-                }
+                };
             }
             Stack response_stack {
+                margin-bottom: 6;
+                margin-start: 6;
+                margin-end: 6;
                 StackPage {
                     title: "Formatted";
                     child:
