@@ -26,7 +26,17 @@ namespace Ep
 
         private CodeViewManager view_manager;
 
-        private Soup.Session session;
+        private Soup.Session _session;
+        private Soup.Session session {
+            get {
+                if(_session == null) {
+                    _session = new Soup.Session() {
+                        user_agent = @"Endpoint/$VERSION",
+                    };
+                }
+                return _session;
+            }
+        }
         private Soup.Message msg;
         private string response;
         private string[] accepted_methods = {
@@ -48,42 +58,17 @@ namespace Ep
         }
 
         [GtkCallback]
-        private void send_action()
+        private void on_send_clicked_cb()
+        {
+            do_request();
+        }
+
+        private Bytes send_request(string url)
         {
             Bytes response_bytes = null;
-            string content_type;
-            string language = null;
-
-            var selected = method_dropdown.selected_item as Gtk.StringObject;
-            var method = selected.string;
-            var url = url_entry.text;
-
-            if(session == null)
-                session = new Soup.Session();
-
-            return_if_fail(is_valid_uri(url));
-
-            response = null;
-            /* FIXME: add a controller to clear and fill these all in one
-             * function call? */
-            view_manager.text = "";
-            status_line.message = null;
-            status_line.text = "";
-            size_label.label = "";
-            header_view.headers = null;
-
-            msg = new Soup.Message(method, url);
-            assert(msg != null);
-
-            var body_as_bytes = new Bytes.static(request_body.text.data);
-
-            msg.set_request_body_from_bytes("application/json",
-                                            body_as_bytes);
-
-            msg.request_headers.append("User-Agent", @"Endpoint/$VERSION");
-
             var loop = new MainLoop();
             spinner.start();
+            spinner.visible = true;
 
             /* XXX: possibly buggy? */
             session.send_and_read_async.begin(msg, 0, null, (obj, res) => {
@@ -91,8 +76,10 @@ namespace Ep
                     response_bytes = session.send_and_read_async.end(res);
                     debug("Send off request with uri %s", url);
                 } catch (Error e) {
-                    status_line.text = e.message;
-                    status_line.status = "error";
+                    var error_message = e.message.split(":")[1];
+                    if(error_message == null)
+                        error_message = e.message;
+                    status_line.set_error(error_message);
                 }
                 loop.quit();
             });
@@ -100,16 +87,55 @@ namespace Ep
             loop.run();
 
             spinner.stop();
+            spinner.visible = false;
+            return response_bytes;
+        }
+
+        private void setup_request(Soup.Message msg)
+        {
+            var body_as_bytes = new Bytes.static(request_body.text.data);
+
+            if(body_as_bytes.length != 0) {
+                /* FIXME: hardcoded */
+                msg.set_request_body_from_bytes("application/json",
+                                                body_as_bytes);
+            }
+        }
+
+        private void do_request()
+        {
+            Bytes response_bytes = null;
+
+            var selected = method_dropdown.selected_item as Gtk.StringObject;
+            var method = selected.string;
+            var url = url_entry.text;
+
+            return_if_fail(is_valid_uri(url));
+
+            this.clear_response_info();
+
+            msg = new Soup.Message(method, url);
+            assert(msg != null);
+
+            setup_request(msg);
+
+            response_bytes = send_request(url);
 
             if(response_bytes == null) {
                 return;
             }
 
             this.response = (string) response_bytes.get_data();
+
+            this.set_response_info(msg);
+        }
+
+        private void set_response_info(Soup.Message msg)
+        {
+            string content_type;
+            string language = null;
+
             content_type = msg.response_headers.get_content_type(null);
-            /* HACK: well, I don't think we're gonna get any other formats
-             * than these
-             */
             if(content_type != null) {
                 language = content_type.split("/")[1];
                 if(language == null) {
@@ -118,11 +144,21 @@ namespace Ep
             }
 
             header_view.headers = msg.response_headers;
-            status_line.message = msg;
+            status_line.set_response_message(msg.status_code,
+                                             msg.reason_phrase);
 
             view_manager.language_id = language;
             view_manager.text = response;
             size_label.label = show_length(response.length);
+        }
+
+        private void clear_response_info()
+        {
+            response = null;
+            view_manager.text = "";
+            status_line.clear();
+            size_label.label = "";
+            header_view.headers = null;
         }
 
         static construct {

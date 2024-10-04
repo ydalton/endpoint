@@ -5,24 +5,26 @@ namespace Ep
         [GtkChild]
         private unowned Gtk.Label label;
 
-        public Soup.Message message { get; set; }
-        public string text { get; set; }
-        public string status { get; set; }
+        public string text { get; private set; }
+        public string status { get; private set; }
 
-        [GtkCallback]
-        private void on_message_change_cb()
+        public void set_error(string message)
+        {
+            text = message;
+            status = "error";
+        }
+
+        public void clear()
         {
             status = "";
+            text = "";
+        }
 
-            if(message == null) {
-                text = "";
-                return;
-            }
+        public void set_response_message(uint code, string reason)
+        {
+            this.text = "%u %s".printf(code, reason);
 
-            text = "%u %s".printf(message.status_code,
-                                  message.reason_phrase);
-
-            switch(message.status_code / 100) {
+            switch(code / 100) {
                 case 2:
                 case 3:
                     status = "success";

@@ -25,7 +25,7 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                 margin-end: 6;
                 hexpand: true;
                 notify::text => $on_text_changed_cb();
-                activate => $send_action();
+                activate => $on_send_clicked_cb();
             }
 
             Gtk.Button send_button {
@@ -34,7 +34,7 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                 styles [
                     "suggested-action"
                 ]
-                clicked => $send_action();
+                clicked => $on_send_clicked_cb();
             }
         }
 
@@ -77,11 +77,13 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                     margin-end: 6;
                     spacing: 6;
 
-                    Spinner spinner {}
-
                     $EpStatusLine status_line {}
 
                     Label size_label {}
+
+                    Spinner spinner {
+                        visible: false;
+                    }
                 };
             }
             Stack response_stack {

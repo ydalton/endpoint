@@ -1,7 +1,6 @@
 using Gtk 4.0;
 
 template $EpStatusLine : Gtk.Box {
-    notify::message => $on_message_change_cb();
     notify::status => $on_status_change_cb();
     Gtk.Stack {
         Gtk.StackPage {
