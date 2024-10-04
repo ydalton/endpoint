@@ -148,8 +148,10 @@ namespace Ep
                                              msg.reason_phrase);
 
             view_manager.language_id = language;
-            view_manager.text = response;
-            size_label.label = show_length(response.length);
+            if(response != null) {
+                view_manager.text = response;
+                size_label.label = show_length(response.length);
+            }
         }
 
         private void clear_response_info()
