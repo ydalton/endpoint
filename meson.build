@@ -18,7 +18,7 @@ libendpoint_lib_sources = files()
 subdir('src')
 
 libendpoint_lib = static_library(
-  'libendpoint',
+  'endpoint',
   libendpoint_lib_sources,
   dependencies: [
     dependency('glib-2.0'),
