@@ -37,12 +37,14 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                 clicked => $send_action();
             }
         }
+
         Box {
             orientation: vertical;
             Box {
                 margin-bottom: 6;
                 homogeneous: true;
 
+                /* this is only to maintain alignment */
                 Box {
                     hexpand: true;
                     halign: start;
@@ -59,10 +61,11 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                     hexpand: true;
                     halign: end;
                     margin-end: 6;
+                    spacing: 6;
 
-                    $EpStatusLine status_line {
+                    $EpStatusLine status_line {}
 
-                    }
+                    Label size_label {}
                 }
             }
             Stack stack {

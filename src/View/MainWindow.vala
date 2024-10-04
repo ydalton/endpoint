@@ -15,6 +15,8 @@ namespace Ep
         private unowned Ep.StatusLine status_line;
         [GtkChild]
         private unowned Ep.HeaderView header_view;
+        [GtkChild]
+        private unowned Gtk.Label size_label;
 
         private Soup.Session session;
         private Soup.Message msg;
@@ -74,22 +76,23 @@ namespace Ep
 
             this.response = (string) response_bytes.get_data();
             content_type = msg.response_headers.get_content_type(null);
-            /* HACK: well, I don't think we're gonna get any other formats than these */
+            /* HACK: well, I don't think we're gonna get any other formats
+             * than these
+             */
             if(content_type != null) {
-                if(content_type.contains("html")) {
-                    language = "html";
-                } else if(content_type.contains("json")) {
-                    language = "json";
-                } else if(content_type.contains("xml")) {
-                    language = "xml";
+                language = content_type.split("/")[1];
+                if(language == null) {
+                    warning("Malformed mimetype in Content-Type header");
                 }
             }
+
             header_view.headers = msg.response_headers;
 
             status_line.message = msg;
 
             formatted.language_id = language;
             formatted.text = response;
+            size_label.label = show_length(response.length);
         }
 
         static construct {
@@ -106,10 +109,9 @@ namespace Ep
             method_dropdown.model = new Gtk.StringList(accepted_methods);
         }
 
-        public MainWindow(Gtk.Application application) 
+        public MainWindow(Gtk.Application application)
         {
             Object(application: application);
         }
     }
 }
-

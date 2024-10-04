@@ -1,4 +1,4 @@
-namespace Ep 
+namespace Ep
 {
     [GtkTemplate(ui="/io/github/ydalton/Endpoint/ui/View/StatusLine.ui")]
     public class StatusLine : Gtk.Box {
@@ -20,7 +20,7 @@ namespace Ep
             }
 
             text = "%u %s".printf(message.status_code,
-                                         message.reason_phrase);
+                                  message.reason_phrase);
 
             switch(message.status_code / 100) {
                 case 2:
