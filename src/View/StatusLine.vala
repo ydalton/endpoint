@@ -5,8 +5,8 @@ namespace Ep
         [GtkChild]
         private unowned Gtk.Label label;
 
-        public string text { get; private set; }
-        public string status { get; private set; }
+        private string text { get; set; }
+        private string status { get; set; }
 
         public void set_error(string message)
         {
@@ -18,6 +18,16 @@ namespace Ep
         {
             status = "";
             text = "";
+        }
+
+        public bool is_error()
+        {
+            return this.status == "error";
+        }
+
+        public string get_response_message()
+        {
+            return this.text;
         }
 
         public void set_response_message(uint code, string reason)

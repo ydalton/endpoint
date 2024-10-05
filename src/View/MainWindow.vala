@@ -147,6 +147,21 @@ namespace Ep
             status_line.set_response_message(msg.status_code,
                                              msg.reason_phrase);
 
+            if(!this.is_active) {
+                string error;
+                var notification = new Notification("Request completed");
+
+                if(status_line.is_error()) {
+                    error = "Server returned an error: "
+                            + @"'$(status_line.get_response_message())'";
+                } else {
+                    error = "Request was successful";
+                }
+                notification.set_body(error);
+                this.application.send_notification("request-complete",
+                                                   notification);
+            }
+
             view_manager.language_id = language;
             if(response != null) {
                 view_manager.text = response;
