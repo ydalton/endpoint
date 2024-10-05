@@ -16,7 +16,7 @@ public class Ep.Application : Gtk.Application
      */
     private string? get_desktop_name()
     {
-        string _desktop_name = Environment.get_variable("XDG_CURRENT_DESKTOP");
+        string _desktop_name = Environment.get_variable("XDG_SESSION_DESKTOP");
         string kernel_name;
         if(_desktop_name == null) {
             try {
@@ -60,12 +60,10 @@ public class Ep.Application : Gtk.Application
             case null:
                 debug("Couldn't detect desktop/operating system!");
                 break;
-            case "GNOME":
+            case "gnome":
                 debug("Initializing Libadwaita...");
-                init_adwaita();
-                break;
-            case "Pantheon":
-                debug("FIMXE: do something for pantheon");
+                if(!init_adwaita())
+                    warning("Couldn't initialize Libadwaita, despite running on GNOME");
                 break;
             default:
                 break;
