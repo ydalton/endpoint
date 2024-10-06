@@ -30,20 +30,24 @@ namespace Ep
             return this.text;
         }
 
-        public void set_response_message(uint code, string reason)
+        private string code_to_status(uint code)
         {
-            this.text = "%u %s".printf(code, reason);
-
             switch(code / 100) {
                 case 2:
                 case 3:
-                    status = "success";
-                    break;
+                    return "success";
                 case 4:
                 case 5:
-                    status = "error";
-                    break;
+                    return "error";
+                default:
+                    assert_not_reached();
             }
+        }
+
+        public void set_response_message(uint code, string reason)
+        {
+            this.text = "%u %s".printf(code, reason);
+            this.status = code_to_status(code);
         }
 
         [GtkCallback]
