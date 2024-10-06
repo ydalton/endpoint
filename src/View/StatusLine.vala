@@ -5,7 +5,7 @@ namespace Ep
         [GtkChild]
         private unowned Gtk.Label label;
 
-        private string text { get; set; }
+        public string text { get; set; }
         private string status { get; set; }
 
         public void set_error(string message)
