@@ -63,6 +63,43 @@ namespace Ep
             text = str;
         }
 
+        private void on_prefer_dark_change_cb(Gtk.Settings settings)
+        {
+            string theme_name;
+            GtkSource.Buffer buffer;
+            var style_manager = GtkSource.StyleSchemeManager.get_default();
+            bool prefer_dark = settings.gtk_application_prefer_dark_theme;
+
+            buffer = this.source_view.buffer as GtkSource.Buffer;
+
+            /* FIXME: does this work with the Breeze theme? */
+            theme_name = prefer_dark ? "Adwaita-dark" : "Adwaita";
+
+            message("Setting theme to %s...", theme_name);
+
+            if(theme_name in style_manager.scheme_ids) {
+                buffer.style_scheme = style_manager.get_scheme(theme_name);
+            }
+        }
+
+        construct {
+            GtkSource.Buffer buffer;
+            var style_manager = GtkSource.StyleSchemeManager.get_default();
+            var settings = Gtk.Settings.get_default();
+
+            buffer = this.source_view.buffer as GtkSource.Buffer;
+
+            if(style_manager.scheme_ids == null) {
+                warning("GtkSourceStyleSchemeManager.scheme-ids returned null");
+                return;
+            }
+
+            settings.notify["gtk-application-prefer-dark-theme"]
+                    .connect(() => on_prefer_dark_change_cb(settings));
+
+            on_prefer_dark_change_cb(settings);
+        }
+
         public CodeView(string language_id, bool editable)
         {
             Object(language_id: language_id, editable: editable);
