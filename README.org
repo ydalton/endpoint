@@ -19,5 +19,5 @@ $ meson compile -C build
 #+END_EXAMPLE
 To run the application:
 #+BEGIN_EXAMPLE
-$ ./build/io.github.ydalton.Endpoint
+$ ./build/endpoint
 #+END_EXAMPLE

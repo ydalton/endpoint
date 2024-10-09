@@ -1,8 +1,10 @@
 project(
-  'io.github.ydalton.Endpoint', 
+  'endpoint',
   ['c', 'vala'], 
   version: '0.1'
 )
+
+app_id = 'io.github.ydalton.Endpoint'
 
 glib_dep = dependency('glib-2.0')
 gobject_dep = dependency('gobject-2.0')
@@ -36,6 +38,7 @@ subdir('test')
 
 config_data = configuration_data()
 config_data.set_quoted('VERSION', meson.project_version())
+config_data.set_quoted('APP_ID', app_id)
 configure_file(
     output: 'config.h',
     configuration: config_data

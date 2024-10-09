@@ -6,7 +6,7 @@ public class Ep.Application : Gtk.Application
 
     public Application()
     {
-        Object(application_id: "io.github.ydalton.Endpoint",
+        Object(application_id: Config.APP_ID,
                flags: ApplicationFlags.DEFAULT_FLAGS);
     }
 
