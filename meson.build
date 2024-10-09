@@ -11,6 +11,11 @@ gtksourceview_dep = dependency('gtksourceview-5')
 libsoup_dep = dependency('libsoup-3.0')
 json_glib_dep = dependency('json-glib-1.0')
 
+# Silence Vala warnings
+add_project_arguments('-Wno-discarded-qualifiers', language: 'c')
+add_project_arguments('-Wno-unused-but-set-variable', language: 'c')
+add_project_arguments('-Wno-unused-variable', language: 'c')
+add_project_arguments('-Wno-unused-function', language: 'c')
 
 gnome = import('gnome')
 
