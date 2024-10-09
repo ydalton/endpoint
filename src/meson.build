@@ -1,14 +1,7 @@
-config_data = configuration_data()
-config_data.set_quoted('VERSION', meson.project_version())
-endpoint_sources += configure_file(
-    input: 'Config.vala.in',
-    output: '@BASENAME@',
-    configuration: config_data
-)
-
 endpoint_sources += files(
   'Endpoint.vala',
-  'camouflage.c'
+  'camouflage.c',
+  'Config.vapi'
 )
 
 blueprint_sources = files()

@@ -31,7 +31,7 @@ namespace Ep
             get {
                 if(_session == null) {
                     _session = new Soup.Session() {
-                        user_agent = @"Endpoint/$VERSION",
+                        user_agent = @"Endpoint/$(Config.VERSION)",
                     };
                 }
                 return _session;

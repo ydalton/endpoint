@@ -34,6 +34,13 @@ libendpoint_lib = static_library(
 
 subdir('test')
 
+config_data = configuration_data()
+config_data.set_quoted('VERSION', meson.project_version())
+configure_file(
+    output: 'config.h',
+    configuration: config_data
+)
+
 endpoint_deps = [
   glib_dep,
   gobject_dep,
@@ -47,8 +54,13 @@ executable(
   meson.project_name(), 
   endpoint_sources, 
   dependencies: endpoint_deps,
+  include_directories: include_directories('.'),
   vala_args: [
     '--gresourcesdir=' + blueprints.full_path(),
+    '--vapidir', meson.current_source_dir(),
+  ],
+  c_args: [
+    '-include', 'config.h',
   ],
   link_with: libendpoint_lib,
   install: true
