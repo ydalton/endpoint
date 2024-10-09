@@ -15,6 +15,7 @@ template $EpMainWindow : Gtk.ApplicationWindow {
             margin-start: 6;
             margin-end: 6;
             margin-bottom: 6;
+            spacing: 6;
 
             Gtk.DropDown method_dropdown {
                 width-request: 84;
@@ -22,7 +23,6 @@ template $EpMainWindow : Gtk.ApplicationWindow {
 
             Gtk.Entry url_entry {
                 placeholder-text: _("URL");
-                margin-end: 6;
                 hexpand: true;
                 notify::text => $on_text_changed_cb();
                 activate => $on_send_clicked_cb();
