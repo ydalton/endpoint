@@ -4,12 +4,13 @@ project(
   version: '0.1'
 )
 
-endpoint_deps = [
-  dependency('gtk4'),
-  dependency('gtksourceview-5'),
-  dependency('libsoup-3.0'),
-  dependency('json-glib-1.0')
-]
+glib_dep = dependency('glib-2.0')
+gobject_dep = dependency('gobject-2.0')
+gtk_dep = dependency('gtk4')
+gtksourceview_dep = dependency('gtksourceview-5')
+libsoup_dep = dependency('libsoup-3.0')
+json_glib_dep = dependency('json-glib-1.0')
+
 
 gnome = import('gnome')
 
@@ -21,12 +22,21 @@ libendpoint_lib = static_library(
   'endpoint',
   libendpoint_lib_sources,
   dependencies: [
-    dependency('glib-2.0'),
-    dependency('gobject-2.0')
+    glib_dep,
+    gobject_dep
   ]
 )
 
 subdir('test')
+
+endpoint_deps = [
+  glib_dep,
+  gobject_dep,
+  gtk_dep,
+  gtksourceview_dep,
+  libsoup_dep,
+  json_glib_dep
+]
 
 executable(
   meson.project_name(), 
