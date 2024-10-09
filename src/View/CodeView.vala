@@ -77,22 +77,19 @@ namespace Ep
 
             message("Setting theme to %s...", theme_name);
 
+            /* XXX: useless? */
+            if(style_manager.scheme_ids == null) {
+                warning("GtkSourceStyleSchemeManager.scheme-ids returned null");
+                return;
+            }
+
             if(theme_name in style_manager.scheme_ids) {
                 buffer.style_scheme = style_manager.get_scheme(theme_name);
             }
         }
 
         construct {
-            GtkSource.Buffer buffer;
-            var style_manager = GtkSource.StyleSchemeManager.get_default();
             var settings = Gtk.Settings.get_default();
-
-            buffer = this.source_view.buffer as GtkSource.Buffer;
-
-            if(style_manager.scheme_ids == null) {
-                warning("GtkSourceStyleSchemeManager.scheme-ids returned null");
-                return;
-            }
 
             settings.notify["gtk-application-prefer-dark-theme"]
                     .connect(() => on_prefer_dark_change_cb(settings));
