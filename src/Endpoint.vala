@@ -18,26 +18,28 @@ public class Ep.Application : Gtk.Application
     {
         string _desktop_name = Environment.get_variable("XDG_SESSION_DESKTOP");
         string kernel_name;
-        if(_desktop_name == null) {
-            try {
-                Process.spawn_sync(null,
-                                   {"uname", "-s"},
-                                   null,
-                                   SpawnFlags.SEARCH_PATH,
-                                   null,
-                                   out kernel_name);
-            } catch (SpawnError e) {
-                error("%s", e.message);
-            }
 
-            kernel_name = kernel_name.split("\n")[0];
-            if(kernel_name != null) {
-                switch(kernel_name) {
-                    case "Darwin":
-                        return "macOS";
-                    default:
-                        return kernel_name;
-                }
+        if(_desktop_name != null)
+            return _desktop_name;
+
+        try {
+            Process.spawn_sync(null,
+                                {"uname", "-s"},
+                                null,
+                                SpawnFlags.SEARCH_PATH,
+                                null,
+                                out kernel_name);
+        } catch (SpawnError e) {
+            error("%s", e.message);
+        }
+
+        kernel_name = kernel_name.split("\n")[0];
+        if(kernel_name != null) {
+            switch(kernel_name) {
+                case "Darwin":
+                    return "macOS";
+                default:
+                    return kernel_name;
             }
         }
         return _desktop_name;
