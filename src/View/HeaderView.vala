@@ -1,7 +1,7 @@
 namespace Ep
 {
     [GtkTemplate(ui="/io/github/ydalton/Endpoint/ui/View/HeaderView.ui")]
-    public class HeaderView : Gtk.Box 
+    public class HeaderView : Gtk.Box
     {
         [GtkChild]
         private unowned Gtk.ColumnView column_view;
@@ -18,14 +18,13 @@ namespace Ep
         {
             Gtk.SelectionModel selection_model;
 
-            if(headers == null)
-                return;
-
             header_models = new ListStore(typeof(Header));
 
-            headers.foreach((name, value) => {
-                header_models.append(new Header(name, value));
-            });
+            if(headers != null) {
+                headers.foreach((name, value) => {
+                    header_models.append(new Header(name, value));
+                });
+            }
 
             selection_model = new Gtk.SingleSelection(header_models);
             column_view.model = selection_model;
@@ -33,7 +32,7 @@ namespace Ep
             setup_column_view();
         }
 
-        private void factory_setup_cb(Gtk.SignalListItemFactory factory, 
+        private void factory_setup_cb(Gtk.SignalListItemFactory factory,
                                       Object item)
         {
             var label = new Gtk.Label(null);
