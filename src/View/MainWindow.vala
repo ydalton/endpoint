@@ -20,6 +20,8 @@ namespace Ep
         [GtkChild]
         private unowned Gtk.Label size_label;
         [GtkChild]
+        private unowned Gtk.Label time_label;
+        [GtkChild]
         private unowned Gtk.Spinner spinner;
         [GtkChild]
         private unowned Ep.CodeView request_body;
@@ -104,6 +106,7 @@ namespace Ep
 
         private void do_request()
         {
+            Timer timer = null;
             Bytes response_bytes = null;
 
             var selected = method_dropdown.selected_item as Gtk.StringObject;
@@ -119,7 +122,9 @@ namespace Ep
 
             setup_request(msg);
 
+            timer = new Timer();
             response_bytes = send_request(url);
+            timer.stop();
 
             if(response_bytes == null) {
                 return;
@@ -127,10 +132,10 @@ namespace Ep
 
             this.response = (string) response_bytes.get_data();
 
-            this.set_response_info(msg);
+            this.set_response_info(msg, timer.elapsed(null));
         }
 
-        private void set_response_info(Soup.Message msg)
+        private void set_response_info(Soup.Message msg, double time)
         {
             string content_type;
             string language = null;
@@ -167,6 +172,8 @@ namespace Ep
                 view_manager.text = response;
                 size_label.label = show_length(response.length);
             }
+
+            time_label.label = "%u ms".printf((uint) (time * 1000.0));
         }
 
         private void clear_response_info()
