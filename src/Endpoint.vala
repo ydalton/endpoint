@@ -45,16 +45,8 @@ public class Ep.Application : Gtk.Application
         return _desktop_name;
     }
 
-    public override void startup()
+    private void camouflage()
     {
-        base.startup();
-        debug("Starting %s...", name);
-    }
-
-    public override void activate()
-    {
-        Gtk.Window window;
-
         string desktop_name = get_desktop_name();
         debug("Running on: %s", desktop_name);
 
@@ -70,11 +62,26 @@ public class Ep.Application : Gtk.Application
             default:
                 break;
         }
+    }
+
+    public override void startup()
+    {
+        base.startup();
+        debug("Starting %s...", name);
+
+        camouflage();
+
+        debug("Finished initializing...");
+    }
+
+    public override void activate()
+    {
+        Gtk.Window window;
 
         window = new Ep.MainWindow(this);
         window.title = name;
         window.present();
-        debug("Finished initializing...");
+
     }
 
     public static int main(string[] args)
