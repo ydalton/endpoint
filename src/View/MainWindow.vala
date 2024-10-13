@@ -41,7 +41,7 @@ namespace Ep
         }
         private Soup.Message msg;
         private string response;
-        private const string[] accepted_methods = {
+        private string[] accepted_methods = {
             "GET",
             "POST",
             "PUT",
