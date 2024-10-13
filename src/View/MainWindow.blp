@@ -1,39 +1,40 @@
 using Gtk 4.0;
 
-template $EpMainWindow : Gtk.ApplicationWindow {
+template $EpMainWindow: ApplicationWindow {
     default-width: 700;
     default-height: 500;
     width-request: 700;
 
-    child:
-    Gtk.Box {
+    child: Box {
         orientation: vertical;
-        Gtk.Box {
-            orientation: horizontal;
 
+        Box {
+            orientation: horizontal;
             margin-top: 6;
             margin-start: 6;
             margin-end: 6;
             margin-bottom: 6;
             spacing: 6;
 
-            Gtk.DropDown method_dropdown {
+            DropDown method_dropdown {
                 width-request: 84;
             }
 
-            Gtk.Entry url_entry {
+            Entry url_entry {
                 placeholder-text: _("URL");
                 hexpand: true;
                 notify::text => $on_text_changed_cb();
                 activate => $on_send_clicked_cb();
             }
 
-            Gtk.Button send_button {
+            Button send_button {
                 sensitive: false;
                 label: _("Send");
+
                 styles [
                     "suggested-action"
                 ]
+
                 clicked => $on_send_clicked_cb();
             }
         }
@@ -67,14 +68,12 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                 CenterBox {
                     margin-top: 6;
 
-                    center-widget:
-                    StackSwitcher {
+                    center-widget: StackSwitcher {
                         stack: response_stack;
                         margin-bottom: 6;
                     };
 
-                    end-widget:
-                    Box {
+                    end-widget: Box {
                         hexpand: true;
                         halign: end;
                         margin-end: 6;
@@ -95,25 +94,26 @@ template $EpMainWindow : Gtk.ApplicationWindow {
                 Stack response_stack {
                     StackPage {
                         title: "Formatted";
-                        child:
-                        $EpCodeView formatted {
+
+                        child: $EpCodeView formatted {
                             format-text: true;
                             editable: false;
                         };
                     }
+
                     StackPage {
                         title: "Raw";
-                        child:
-                        $EpCodeView raw {
+
+                        child: $EpCodeView raw {
                             format-text: false;
                             editable: false;
                         };
                     }
+
                     StackPage {
                         title: "Headers";
-                        child:
-                        $EpHeaderView header_view {
-                        };
+
+                        child: $EpHeaderView header_view {};
                     }
                 }
             }
