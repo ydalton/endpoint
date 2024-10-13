@@ -13,8 +13,14 @@ gtksourceview_dep = dependency('gtksourceview-5')
 libsoup_dep = dependency('libsoup-3.0')
 json_glib_dep = dependency('json-glib-1.0')
 
+cc = meson.get_compiler('c')
+
 # Silence Vala warnings
-add_project_arguments('-Wno-discarded-qualifiers', language: 'c')
+if cc.get_id() == 'gcc'
+  add_project_arguments('-Wno-discarded-qualifiers', language: 'c')
+elif cc.get_id() == 'clang'
+  add_project_arguments('-Wno-incompatible-pointer-types-discards-qualifiers', language: 'c')
+endif
 add_project_arguments('-Wno-unused-but-set-variable', language: 'c')
 add_project_arguments('-Wno-unused-variable', language: 'c')
 add_project_arguments('-Wno-unused-function', language: 'c')
