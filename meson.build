@@ -1,6 +1,6 @@
 project(
   'endpoint',
-  ['c', 'vala'], 
+  ['c', 'vala'],
   version: '0.1'
 )
 
@@ -62,8 +62,8 @@ endpoint_deps = [
 ]
 
 executable(
-  meson.project_name(), 
-  endpoint_sources, 
+  meson.project_name(),
+  endpoint_sources,
   dependencies: endpoint_deps,
   include_directories: include_directories('.'),
   vala_args: [
