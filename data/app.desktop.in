@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Endpoint
+Comment=Test API endpoints
+Exec=endpoint
+Terminal=False
+Type=Application

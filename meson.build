@@ -50,6 +50,8 @@ configure_file(
     configuration: config_data
 )
 
+subdir('data')
+
 endpoint_deps = [
   glib_dep,
   gobject_dep,
