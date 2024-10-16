@@ -38,6 +38,7 @@ namespace Ep
             var label = new Gtk.Label(null);
             var list_item = (item as Gtk.ListItem);
             label.halign = Gtk.Align.START;
+            label.selectable = true;
             list_item.child = label;
         }
 
