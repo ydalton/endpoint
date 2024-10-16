@@ -26,9 +26,11 @@ add_project_arguments('-Wno-unused-variable', language: 'c')
 add_project_arguments('-Wno-unused-function', language: 'c')
 
 gnome = import('gnome')
+i18n = import('i18n')
 
 endpoint_sources = files()
 libendpoint_lib_sources = files()
+
 subdir('src')
 
 libendpoint_lib = static_library(
@@ -51,6 +53,7 @@ configure_file(
 )
 
 subdir('data')
+subdir('po')
 
 endpoint_deps = [
   glib_dep,
@@ -75,4 +78,9 @@ executable(
   ],
   link_with: libendpoint_lib,
   install: true
+)
+
+gnome.post_install(
+  gtk_update_icon_cache: true,
+  update_desktop_database: true
 )

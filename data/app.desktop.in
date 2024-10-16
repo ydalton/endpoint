@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Endpoint
 Comment=Test API endpoints
+Icon=@app_id@
 Exec=endpoint
 Terminal=False
 Type=Application
