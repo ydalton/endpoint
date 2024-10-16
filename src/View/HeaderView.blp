@@ -11,6 +11,8 @@ template $EpHeaderView: Box {
         ColumnView column_view {
             tab-behavior: cell;
             reorderable: false;
+            show-column-separators: true;
+            show-row-separators: true;
 
             ColumnViewColumn header_column {
                 title: "Header";
@@ -25,7 +27,7 @@ template $EpHeaderView: Box {
             }
 
             styles [
-                "data_table"
+                "data-table",
             ]
         }
     }
