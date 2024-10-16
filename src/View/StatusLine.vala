@@ -6,7 +6,7 @@ namespace Ep
         private unowned Gtk.Label label;
 
         public string text { get; set; }
-        private string status { get; set; }
+        public string status { get; set; }
 
         public void set_error(string message)
         {
