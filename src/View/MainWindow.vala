@@ -48,6 +48,8 @@ namespace Ep
             "DELETE"
         };
 
+        public bool ignore_insecure { get; set; }
+
         private bool is_valid_uri(string str)
         {
             Uri uri;
@@ -101,6 +103,11 @@ namespace Ep
                 /* FIXME: hardcoded */
                 msg.set_request_body_from_bytes("application/json",
                                                 body_as_bytes);
+            }
+
+            if(this.ignore_insecure) {
+                /* accept all certificates, even those considered invalid */
+                msg.accept_certificate.connect(() => true);
             }
         }
 

@@ -61,6 +61,20 @@ template $EpMainWindow: ApplicationWindow {
                             editable: true;
                         };
                     }
+
+                    StackPage {
+                        title: "Settings";
+
+                        child: Box {
+                            orientation: vertical;
+                            halign: start;
+
+                            CheckButton {
+                                label: "Ignore insecure certificates";
+                                active: bind template.ignore_insecure bidirectional;
+                            }
+                        };
+                    }
                 }
             }
 
