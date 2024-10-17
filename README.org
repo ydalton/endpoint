@@ -1,4 +1,5 @@
 #+TITLE: Endpoint: A GTK application for API testing
+[[./endpoint.png]]
 ** Introduction
 This application allows you to test REST APIs similar to ~curl~, but
 with a graphical interface, similar to Postman.
