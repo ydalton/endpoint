@@ -1,7 +1,7 @@
 namespace Ep
 {
     [GtkTemplate(ui="/io/github/ydalton/Endpoint/ui/View/HeaderView.ui")]
-    public class HeaderView : Gtk.Box
+    public class HeaderView : Gtk.Widget
     {
         [GtkChild]
         private unowned Gtk.ColumnView column_view;
@@ -12,6 +12,10 @@ namespace Ep
 
         public Soup.MessageHeaders headers { get; set; }
         private ListStore header_models = null;
+
+        static construct {
+            set_layout_manager_type(typeof(Gtk.BinLayout));
+        }
 
         [GtkCallback]
         private void on_header_change_cb()
@@ -69,6 +73,13 @@ namespace Ep
                 label.label = header.value;
             });
             value_column.factory = factory;
+        }
+
+        ~HeaderView()
+        {
+            while(get_first_child() != null) {
+                get_first_child().unparent();
+            }
         }
     }
 }

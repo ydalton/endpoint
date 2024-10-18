@@ -1,7 +1,7 @@
 namespace Ep
 {
     [GtkTemplate(ui="/io/github/ydalton/Endpoint/ui/View/CodeView.ui")]
-    public class CodeView : Gtk.Box 
+    public class CodeView : Gtk.Widget
     {
         private GtkSource.LanguageManager manager;
 
@@ -88,6 +88,10 @@ namespace Ep
             }
         }
 
+        static construct {
+            set_layout_manager_type(typeof(Gtk.BinLayout));
+        }
+
         construct {
             var settings = Gtk.Settings.get_default();
 
@@ -100,6 +104,13 @@ namespace Ep
         public CodeView(string language_id, bool editable)
         {
             Object(language_id: language_id, editable: editable);
+        }
+
+        ~CodeView()
+        {
+            while(get_first_child() != null) {
+                get_first_child().unparent();
+            }
         }
     }
 }

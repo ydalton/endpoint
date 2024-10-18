@@ -1,6 +1,6 @@
 using Gtk 4.0;
 
-template $EpStatusLine: Box {
+template $EpStatusLine: Widget {
     notify::status => $on_status_change_cb();
 
     Label label {

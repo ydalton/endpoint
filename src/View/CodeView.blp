@@ -1,7 +1,9 @@
 using Gtk 4.0;
 using GtkSource 5;
 
-template $EpCodeView: Box {
+template $EpCodeView: Widget {
+    hexpand: true;
+    vexpand: true;
     notify::language-id => $on_language_change_cb();
     notify::text => $on_text_change_cb();
 

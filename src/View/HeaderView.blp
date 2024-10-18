@@ -1,6 +1,6 @@
 using Gtk 4.0;
 
-template $EpHeaderView: Box {
+template $EpHeaderView: Widget {
     notify::headers => $on_header_change_cb();
 
     ScrolledWindow {

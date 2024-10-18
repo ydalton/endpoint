@@ -1,7 +1,7 @@
 namespace Ep
 {
     [GtkTemplate(ui="/io/github/ydalton/Endpoint/ui/View/StatusLine.ui")]
-    public class StatusLine : Gtk.Box {
+    public class StatusLine : Gtk.Widget {
         [GtkChild]
         private unowned Gtk.Label label;
 
@@ -69,6 +69,17 @@ namespace Ep
                     break;
                 default:
                     assert_not_reached();
+            }
+        }
+
+        static construct {
+            set_layout_manager_type(typeof(Gtk.BinLayout));
+        }
+
+        ~StatusLine()
+        {
+            while(get_first_child() != null) {
+                get_first_child().unparent();
             }
         }
     }
