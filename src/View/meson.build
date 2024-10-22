@@ -1,14 +1,14 @@
 endpoint_sources += files(
-  'MainWindow.vala',
   'CodeView.vala',
-  'HeaderView.vala',
-  'StatusLine.vala',
   'CodeViewManager.vala',
+  'HeaderView.vala',
+  'MainWindow.vala',
+  'StatusLine.vala',
 )
 
 blueprint_sources += files(
-  'MainWindow.blp',
-  'HeaderView.blp',
   'CodeView.blp',
-  'StatusLine.blp'
+  'HeaderView.blp',
+  'MainWindow.blp',
+  'StatusLine.blp',
 )
