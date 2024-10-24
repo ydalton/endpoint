@@ -10,10 +10,6 @@ public class Ep.Application : Gtk.Application
                flags: ApplicationFlags.DEFAULT_FLAGS);
     }
 
-    /*
-     * for some "compatibility" reason, when running in VSCode this variable
-     * returns "Unity".
-     */
     private string? get_desktop_name()
     {
         string _desktop_name = Environment.get_variable("XDG_SESSION_DESKTOP");
