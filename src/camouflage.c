@@ -17,7 +17,7 @@ gboolean init_adwaita()
 	void *adwaita;
 	void (*adw_init)();
 
-	adwaita = dlopen("libadwaita-1.0.dylib", RTLD_NOW);
+	adwaita = dlopen("libadwaita-1.so.0", RTLD_NOW);
 	if(!adwaita) {
 		g_warning("Could not dlopen Libadwaita");
 		return FALSE;
