@@ -22,6 +22,9 @@ namespace Ep
 
             buffer = this.source_view.buffer as GtkSource.Buffer;
 
+            if(!this.format_text)
+                return;
+
             if(language_id != null) {
 
                 this.manager = GtkSource.LanguageManager.get_default();
@@ -36,15 +39,11 @@ namespace Ep
             buffer.language = language;
         }
 
-        [GtkCallback]
-        private void on_text_change_cb()
+        private void format_json()
         {
             Json.Node node;
 
             debug("Parsing JSON...");
-
-            if(language_id != "json" || !this.format_text || this.text == "")
-                return;
 
             try {
                 node = Json.from_string(text);
@@ -61,6 +60,27 @@ namespace Ep
 
             var str = Json.to_string(node, true);
             text = str;
+        }
+
+        private inline bool should_format()
+        {
+            return !(this.text == "" || !this.format_text);
+        }
+
+        private void do_format_text()
+        {
+            switch(this.language_id) {
+            case "json":
+                format_json();
+                break;
+            }
+        }
+
+        [GtkCallback]
+        private void on_text_change_cb()
+        {
+            if(should_format())
+                do_format_text();
         }
 
         private void on_prefer_dark_change_cb(Gtk.Settings settings)

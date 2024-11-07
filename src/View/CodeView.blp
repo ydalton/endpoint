@@ -9,7 +9,7 @@ template $EpCodeView: Widget {
 
     ScrolledWindow {
         GtkSource.View source_view {
-            show-line-numbers: true;
+            show-line-numbers: bind template.format-text;
             monospace: true;
             auto-indent: true;
             highlight-current-line: true;
