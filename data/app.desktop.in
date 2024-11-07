@@ -3,5 +3,5 @@ Name=Endpoint
 Comment=Test API endpoints
 Icon=@app_id@
 Exec=endpoint
-Terminal=False
+Terminal=false
 Type=Application
