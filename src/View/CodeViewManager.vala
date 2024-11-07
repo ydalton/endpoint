@@ -1,5 +1,10 @@
 namespace Ep
 {
+    /*
+     * This is an auxilliary object that manages multiple EpCodeViews,
+     * managing the text buffers and languages of the EpCodeViews it
+     * manages.
+     */
     internal class CodeViewManager : Object
     {
         private List<CodeView> view_list;
