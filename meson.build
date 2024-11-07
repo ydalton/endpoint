@@ -6,12 +6,21 @@ project(
 
 app_id = 'io.github.ydalton.Endpoint'
 
+os_darwin = false
+if host_machine.system() == 'darwin'
+  os_darwin = true
+endif
+
 glib_dep = dependency('glib-2.0')
 gobject_dep = dependency('gobject-2.0')
 gtk_dep = dependency('gtk4')
 gtksourceview_dep = dependency('gtksourceview-5')
 libsoup_dep = dependency('libsoup-3.0')
 json_glib_dep = dependency('json-glib-1.0')
+
+if os_darwin
+  libadwaita_dep = dependency('libadwaita-1')
+endif
 
 cc = meson.get_compiler('c')
 
@@ -64,6 +73,10 @@ endpoint_deps = [
   json_glib_dep
 ]
 
+if os_darwin
+  endpoint_deps += libadwaita_dep
+endif
+
 executable(
   meson.project_name(),
   endpoint_sources,
@@ -80,7 +93,9 @@ executable(
   install: true
 )
 
-gnome.post_install(
-  gtk_update_icon_cache: true,
-  update_desktop_database: true
-)
+if not os_darwin
+  gnome.post_install(
+    gtk_update_icon_cache: true,
+    update_desktop_database: true
+  )
+endif

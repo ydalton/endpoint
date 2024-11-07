@@ -3,14 +3,21 @@
  */
 
 #include <glib.h>
-#include <dlfcn.h>
 
+#if defined(G_OS_DARWIN)
+#include <libadwaita.h>
+gboolean init_adwaita()
+{
+    adw_init();
+}
+#else
+#include <dlfcn.h>
 gboolean init_adwaita()
 {
 	void *adwaita;
 	void (*adw_init)();
 
-	adwaita = dlopen("libadwaita-1.so.0", RTLD_NOW);
+	adwaita = dlopen("libadwaita-1.0.dylib", RTLD_NOW);
 	if(!adwaita) {
 		g_warning("Could not dlopen Libadwaita");
 		return FALSE;
@@ -26,3 +33,4 @@ gboolean init_adwaita()
 
 	return TRUE;
 }
+#endif

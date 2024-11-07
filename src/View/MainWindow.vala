@@ -153,6 +153,11 @@ namespace Ep
                 if(language == null) {
                     warning("Malformed mimetype in Content-Type header");
                 }
+                /* example: application/problem+json */
+                var plus = language.split("+");
+                if(plus[1] != null) {
+                    language = plus[1];
+                }
             }
 
             header_view.headers = msg.response_headers;

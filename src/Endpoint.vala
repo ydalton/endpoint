@@ -51,9 +51,10 @@ public class Ep.Application : Gtk.Application
                 debug("Couldn't detect desktop/operating system!");
                 break;
             case "gnome":
+            case "macOS":
                 debug("Initializing Libadwaita...");
                 if(!init_adwaita())
-                    warning("Couldn't initialize Libadwaita, despite running on GNOME");
+                    critical("Couldn't initialize Libadwaita");
                 break;
             default:
                 break;
