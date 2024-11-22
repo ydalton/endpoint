@@ -4,4 +4,5 @@ Comment=Test API endpoints
 Icon=@app_id@
 Exec=endpoint
 Terminal=false
+Categories=Network
 Type=Application
