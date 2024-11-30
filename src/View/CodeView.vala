@@ -93,7 +93,7 @@ namespace Ep
             buffer = this.source_view.buffer as GtkSource.Buffer;
 
             /* FIXME: does this work with the Breeze theme? */
-            theme_name = prefer_dark ? "Adwaita-dark" : "Adwaita";
+            theme_name = settings.gtk_theme_name;
 
             message("Setting theme to %s...", theme_name);
 
@@ -103,9 +103,12 @@ namespace Ep
                 return;
             }
 
-            if(theme_name in style_manager.scheme_ids) {
-                buffer.style_scheme = style_manager.get_scheme(theme_name);
+            if(!(theme_name in style_manager.scheme_ids)) {
+                warning("Unknown scheme %s, falling back to Adwaita theme.", theme_name);
+                theme_name = prefer_dark ? "Adwaita-dark" : "Adwaita";
             }
+
+            buffer.style_scheme = style_manager.get_scheme(theme_name);
         }
 
         static construct {
